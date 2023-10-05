@@ -3,12 +3,14 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const authRouter = require('./authRoutes');
+const appRouter = require('./appRoutes');
 
 const app = express();
 
 app.use([cors(), morgan('dev'), express.json()]);
 
 app.use('/auth', authRouter);
+app.use('/', appRouter);
 
 app.get('/health', (_req, res) => {
   res.status(200).json({

@@ -16,3 +16,11 @@ Content-Type: application/json
     "email": "shourav@gmai.com",
     "password": "1234"
 }
+
+###
+GET http://localhost:4000/public
+
+
+###
+GET http://localhost:4000/private
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFlNWMzOGMyMmJlMWQ1YWQ3Mjg4NzIiLCJuYW1lIjoic2hvdXJhdiIsImVtYWlsIjoic2hvdXJhdkBnbWFpLmNvbSIsImlhdCI6MTY5NjQ5OTUzOCwiZXhwIjoxNjk2NTA2NzM4fQ.Amq9JoqelAZUb_GGi68RUPV_37QsZSCT-OI0FPtwGVI
