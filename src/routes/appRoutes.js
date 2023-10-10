@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const authenticate = require('./authenticateMiddleware');
-const authorize = require('./authorizeMiddleware');
+const authenticate = require('../middlewares/authenticateMiddleware');
+const authorize = require('../middlewares/authorizeMiddleware');
 
 router.get(
   '/public',
