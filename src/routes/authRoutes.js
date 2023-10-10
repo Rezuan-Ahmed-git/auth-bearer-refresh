@@ -2,6 +2,8 @@ const router = require('express').Router();
 const User = require('../models/UserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { addDays } = require('date-fns');
+const RefreshToken = require('../models/RefreshTokenModel');
 
 router.post('/register', async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -45,7 +47,28 @@ router.post('/login', async (req, res) => {
     { expiresIn: '2h' }
   );
 
-  res.status(200).json({ token });
+  //database object
+  const refreshToken = new RefreshToken({
+    user: user._id,
+    issuedIp: req.clientIp || 'N/A',
+    token: '',
+    expiredAt: addDays(new Date(), 30),
+  });
+
+  const rToken = jwt.sign(
+    {
+      _id: refreshToken._id,
+      user: user._id,
+      name: user.name,
+      email: user.email,
+    },
+    'MY_JWT'
+  );
+
+  refreshToken.token = rToken;
+  await refreshToken.save();
+
+  res.status(200).json({ accessToken: token, refreshToken: rToken });
 });
 
 module.exports = router;
