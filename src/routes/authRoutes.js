@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
   const token = jwt.sign(
     { _id: user._id, name: user.name, email: user.email },
     'MY_JWT',
-    { expiresIn: '2h' }
+    { expiresIn: '30s' }
   );
 
   //database object
