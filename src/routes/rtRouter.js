@@ -25,4 +25,43 @@ router.post('/refresh', async (req, res) => {
   }
 });
 
+router.post('/revoke', async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const decode = jwt.verify(token, 'MY_JWT');
+    const refreshToken = await RefreshToken.findById(decode._id);
+
+    if (!refreshToken || !refreshToken.isActive) {
+      return res.status(400).json({ message: 'Invalid Token' });
+    }
+
+    refreshToken.revokedAt = new Date();
+    refreshToken.revokedIp = req.clientIp;
+
+    await refreshToken.save();
+
+    res.status(200).json({ message: 'Token Revoked' });
+  } catch (e) {
+    res.status(400).json({ message: 'Invalid Token' });
+  }
+});
+
+router.post('/valid', async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const decode = jwt.verify(token, 'MY_JWT');
+    const refreshToken = await RefreshToken.findById(decode._id);
+
+    if (!refreshToken || !refreshToken.isActive) {
+      return res.status(400).json({ message: 'Invalid Token' });
+    }
+
+    res.status(200).json({ message: 'Token is Valid' });
+  } catch (e) {
+    res.status(400).json({ message: 'Invalid Token' });
+  }
+});
+
 module.exports = router;
